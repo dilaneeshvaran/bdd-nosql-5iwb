@@ -32,4 +32,16 @@ const productsWithVariants = await client
 
 console.log(productsWithVariants);
 
+// ex 3 : modifier un document imbrique
+const collection = client
+  .db("marketplace")
+  .collection<{ _id: string }>("products");
+
+await collection.updateOne(
+  { _id: "product-1" },
+  { $set: { "stock.quantity": 8 } },
+);
+
+console.log(await collection.findOne({ _id: "product-1" }));
+
 await client.close();
