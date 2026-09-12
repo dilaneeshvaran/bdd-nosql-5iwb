@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "typecheck": "tsc --noEmit",
     "dev:postgres": "tsx src/postgres.ts",
     "dev:valkey": "tsx src/valkey.ts",
     "dev:mongo": "tsx src/mongo.ts"

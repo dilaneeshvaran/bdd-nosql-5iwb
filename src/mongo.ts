@@ -16,4 +16,20 @@ const products = await client
 
 console.log(products);
 
+// ex 2 : attention aux tableaux
+const productsWithVariants = await client
+  .db("marketplace")
+  .collection("products")
+  .find({
+    variants: {
+      $elemMatch: {
+        price: { $lt: 1600 },
+        stock: { $gt: 0 },
+      },
+    },
+  })
+  .toArray();
+
+console.log(productsWithVariants);
+
 await client.close();

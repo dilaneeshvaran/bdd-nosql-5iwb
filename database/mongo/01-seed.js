@@ -6,7 +6,11 @@ db.products.insertMany([
     categories: [
       { id: "computers", name: "Ordinateurs" }
     ],
-    stock: { quantity: 12 }
+    stock: { quantity: 12 },
+    variants: [
+      { color: "black", price: 1499, stock: 0 },
+      { color: "silver", price: 1899, stock: 12 }
+    ]
   },
   {
     _id: "product-3",
