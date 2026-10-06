@@ -44,4 +44,19 @@ await collection.updateOne(
 
 console.log(await collection.findOne({ _id: "product-1" }));
 
+// ex 4 : créer et utiliser un index
+await collection.createIndex({ "categories.id": 1 });
+
+const productsByCategory = await collection
+  .find({ "categories.id": "accessories" })
+  .toArray();
+
+console.log(productsByCategory);
+
+const explain = await collection
+  .find({ "categories.id": "accessories" })
+  .explain("executionStats");
+
+console.dir(explain, { depth: null });
+
 await client.close();
