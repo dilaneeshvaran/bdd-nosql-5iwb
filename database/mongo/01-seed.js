@@ -38,6 +38,7 @@ db.commands.insertMany([
           name: "Laptop Pro 14",
         },
         quantity: 1,
+        categoryId: "computers",
         unitPrice: 1499,
       },
     ],

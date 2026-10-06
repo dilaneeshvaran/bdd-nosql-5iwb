@@ -83,4 +83,24 @@ const paidCommands = await client
 
 console.log(paidCommands);
 
+// ex 2 : chiffre d'affaires par catégorie
+const revenueByCategory = await client
+  .db("marketplace")
+  .collection("commands")
+  .aggregate([
+    { $match: { status: "paid" } },
+    { $unwind: "$lines" },
+    {
+      $group: {
+        _id: "$lines.categoryId",
+        revenue: {
+          $sum: { $multiply: ["$lines.quantity", "$lines.unitPrice"] },
+        },
+      },
+    },
+  ])
+  .toArray();
+
+console.log(revenueByCategory);
+
 await client.close();
