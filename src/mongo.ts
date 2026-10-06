@@ -44,7 +44,7 @@ await collection.updateOne(
 
 console.log(await collection.findOne({ _id: "product-1" }));
 
-// ex 4 : créer et utiliser un index
+// ex : créer et utiliser un index
 await collection.createIndex({ "categories.id": 1 });
 
 const productsByCategory = await collection
@@ -58,5 +58,29 @@ const explain = await collection
   .explain("executionStats");
 
 console.dir(explain, { depth: null });
+
+// ex 1 : filtrer et projeter
+const paidCommands = await client
+  .db("marketplace")
+  .collection("commands")
+  .aggregate([
+    {
+      $match: {
+        status: "paid",
+        createdAt: { $gte: new Date("2026-09-01T00:00:00Z") },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        commandId: "$_id",
+        customerId: "$customer.id",
+        linesCount: { $size: "$lines" },
+      },
+    },
+  ])
+  .toArray();
+
+console.log(paidCommands);
 
 await client.close();
