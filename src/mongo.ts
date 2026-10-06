@@ -73,7 +73,7 @@ const paidCommands = await client
     {
       $project: {
         _id: 0,
-        commandId: "$_id",
+        commandId: { $toString: "$_id" },
         customerId: "$customer.id",
         linesCount: { $size: "$lines" },
       },
@@ -112,7 +112,7 @@ const topProducts = await client
     { $unwind: "$lines" },
     {
       $group: {
-        _id: "$lines.product.id",
+        _id: "$lines.productId",
         totalQuantity: { $sum: "$lines.quantity" },
       },
     },
