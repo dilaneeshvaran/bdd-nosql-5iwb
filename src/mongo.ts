@@ -103,4 +103,24 @@ const revenueByCategory = await client
 
 console.log(revenueByCategory);
 
+// ex 3 : top produits vendus
+const topProducts = await client
+  .db("marketplace")
+  .collection("commands")
+  .aggregate([
+    { $match: { status: "paid" } },
+    { $unwind: "$lines" },
+    {
+      $group: {
+        _id: "$lines.product.id",
+        totalQuantity: { $sum: "$lines.quantity" },
+      },
+    },
+    { $sort: { totalQuantity: -1 } },
+    { $limit: 5 },
+  ])
+  .toArray();
+
+console.log(topProducts);
+
 await client.close();
